@@ -5,9 +5,7 @@ node {
 
     stage('Execute Script') {
         steps {
-            dir('path/to/scripts') {
-                sh 'chmod +x my_script.sh && ./my_script.sh'
-            }
+            sh 'chmod +x my_script.sh && ./my_script.sh'
         }
     }
 }
