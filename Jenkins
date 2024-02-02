@@ -1,42 +1,13 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout code from version control (Git)
-                git 'https://github.com/your-username/your-repo.git'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-                // Add your build steps here
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                // Add your test steps here
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the project...'
-                // Add your deployment steps here
-            }
-        }
+node {
+    stage('Checkout') {
+        git 'https://github.com/sailaja22/jenkins_scripted.git'
     }
 
-    post {
-        success {
-            echo 'Pipeline succeeded! Perform additional actions if needed.'
-        }
-        failure {
-            echo 'Pipeline failed! Perform cleanup or other actions if needed.'
+    stage('Execute Script') {
+        steps {
+            dir('path/to/scripts') {
+                sh 'chmod +x my_script.sh && ./my_script.sh'
+            }
         }
     }
 }
