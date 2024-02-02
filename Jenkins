@@ -1,47 +1,58 @@
 pipeline {
     agent any
+    
     stages {
         stage('One') {
-                steps {
-                        echo 'Hi, this is Zulaikha from edureka'
-			
-                }
+            steps {
+                echo 'Hi, this is Sailaja'
+            }
         }
-	    stage('Two'){
-		    
-		steps {
-			input('Do you want to proceed?')
+        stage('Two') {
+            steps {
+                input('Do you want to proceed?')
+            }
         }
-	    }
         stage('Three') {
-                when {
-                        not {
-                                branch "master"
-                        }
+            when {
+                not {
+                    branch "master"
                 }
-                steps {
-			echo "Hello"
-                        }
+            }
+            steps {
+                echo "Hello"
+            }
         }
         stage('Four') {
-                parallel {
-                        stage('Unit Test') {
-                                steps{
-                                        echo "Running the unit test..."
-                                }
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        echo "Running the unit test..."
+                    }
+                }
+                stage('Integration test') {
+                    agent {
+                        docker {
+                            reuseNode false
+                            image 'ubuntu'
                         }
-                        stage('Integration test') {
-                        agent {
-                                docker {
-                                        reuseNode false
-					image 'ubuntu'
-                                        }
-			}
-				steps {
-					echo 'Running the integration test..'
-				}
-                               
-			}  }
+                    }
+                    steps {
+                        echo 'Running the integration test..'
+                    }
+                }
+                stage('Execute my_script.sh') {
+                    steps {
+                        // Checkout code from version control (Git)
+                        git 'https://github.com/sailaja22/jenkins_scripted.git'
+
+                        // Ensure the script has execute permissions
+                        sh 'chmod +x my_script.sh'
+
+                        // Execute the script
+                        sh './my_script.sh'
+                    }
+                }
+            }
         }
     }
 }
