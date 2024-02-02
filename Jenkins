@@ -1,6 +1,9 @@
+
 pipeline {
     agent any
-    
+    environment {
+        DOCKER_HOST_WORKSPACE = '/var/lib/jenkins/workspace/pipeline_git'
+    }
     stages {
         stage('One') {
             steps {
